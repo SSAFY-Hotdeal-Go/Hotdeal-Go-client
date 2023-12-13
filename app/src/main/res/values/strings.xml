@@ -2,4 +2,14 @@
     <string name="app_name">Hotdeal-Go</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fmkorea">fmkorea</string>
+    <string name="quasarzone">quasarzone</string>
+    <string name="ruliweb">ruliweb</string>
+    <string name="plz_input_query">검색어를 입력하세요</string>
+    <string name="search">검색</string>
+    <string name="shoppingMallInfoAnnouncement">쇼핑몰&#160;</string>
+    <string name="priceInfoAnnouncement">/ 가격&#160;</string>
+    <string name="shippingFeeInfoAnnouncement">원/ 배송비&#160;</string>
+    <string name="writedDateInfoAnnouncement">작성일시&#160;</string>
+    <string name="likeCntInfoAnnouncement">/ 좋아요&#160;</string>
 </resources>

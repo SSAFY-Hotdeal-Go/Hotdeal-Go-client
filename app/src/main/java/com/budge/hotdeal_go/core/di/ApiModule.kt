@@ -1,5 +1,6 @@
 package com.budge.hotdeal_go.core.di
 
+import com.budge.hotdeal_go.data.api.HotDealApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,10 +21,16 @@ object ApiModule {
     ): Retrofit {
         val builder = Retrofit.Builder()
         builder
-            .baseUrl("")
+            .baseUrl("http://13.125.124.61:80/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
 
         return builder.build()
     }
+
+    @Singleton
+    @Provides
+    fun provideHotDealAPI(
+        retrofit: Retrofit
+    ): HotDealApi = retrofit.create(HotDealApi::class.java)
 }
