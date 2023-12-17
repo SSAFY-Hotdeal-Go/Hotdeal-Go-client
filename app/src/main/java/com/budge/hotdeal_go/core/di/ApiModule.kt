@@ -1,5 +1,6 @@
 package com.budge.hotdeal_go.core.di
 
+import com.budge.hotdeal_go.data.api.HomeApi
 import com.budge.hotdeal_go.data.api.HotDealApi
 import dagger.Module
 import dagger.Provides
@@ -33,4 +34,10 @@ object ApiModule {
     fun provideHotDealAPI(
         retrofit: Retrofit
     ): HotDealApi = retrofit.create(HotDealApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideHomeApi(
+        retrofit: Retrofit
+    ): HomeApi = retrofit.create(HomeApi::class.java)
 }

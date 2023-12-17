@@ -1,5 +1,7 @@
 package com.budge.hotdeal_go.core.di
 
+import com.budge.hotdeal_go.data.datasource.home.HomeRemoteDatasource
+import com.budge.hotdeal_go.data.datasource.home.HomeRemoteDatasourceImpl
 import com.budge.hotdeal_go.data.datasource.hotdeal.HotDealRemoteDatasource
 import com.budge.hotdeal_go.data.datasource.hotdeal.HotDealRemoteDatasourceImpl
 import dagger.Binds
@@ -12,4 +14,7 @@ import dagger.hilt.components.SingletonComponent
 abstract class DataSourceModule {
     @Binds
     abstract fun bindHotDealDatasource(hotDealRemoteDatasourceImpl: HotDealRemoteDatasourceImpl): HotDealRemoteDatasource
+
+    @Binds
+    abstract fun bindHomeDatasource(homeRemoteDatasourceImpl: HomeRemoteDatasourceImpl): HomeRemoteDatasource
 }
