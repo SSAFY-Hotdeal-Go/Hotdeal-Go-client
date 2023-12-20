@@ -10,7 +10,6 @@ import com.budge.hotdeal_go.domain.usecase.GetLatestHotDealItems
 import com.budge.hotdeal_go.domain.usecase.GetLikeTop3Items
 import com.budge.hotdeal_go.domain.usecase.GetNoticeListItems
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,49 +29,37 @@ class HomeViewModel @Inject constructor(
     val likeTop3ItemList: LiveData<List<HotDealItem>> get() = _likeTop3ItemList
 
     private fun getNotice() =
-        viewModelScope.async {
-            runCatching {
+        viewModelScope.launch {
+            _noticeItemList.value = runCatching {
                 getNoticeListItems.getItems()
-            }.getOrDefault(emptyList<NoticeItem>())
+            }.getOrDefault(emptyList()).sortedBy { it.time }.reversed()
         }
 
     private fun getLatestHotDealItem() =
-        viewModelScope.async {
-            runCatching {
+        viewModelScope.launch {
+            _latestHotDealItemList.value = runCatching {
                 getLatestHotDealItems.getItems()
-            }.getOrDefault(emptyList<HotDealItem>())
+            }.getOrDefault(emptyList()).sortedBy { it.time }.reversed()
         }
 
     private fun getLikeTop3Item() =
-        viewModelScope.async {
-            runCatching {
+        viewModelScope.launch {
+            _likeTop3ItemList.value = runCatching {
                 getLikeTop3Items.getItems()
-            }.getOrDefault(emptyList<HotDealItem>())
+            }.getOrDefault(emptyList()).sortedBy { it.likeCnt }.reversed()
         }
 
 
     fun renewNotice() {
-        val newNoticeList = mutableListOf<NoticeItem>()
-        viewModelScope.launch {
-            newNoticeList.addAll(getNotice().await())
-            _noticeItemList.value = newNoticeList.sortedBy { it.time }.reversed()
-        }
+        getNotice()
     }
 
     fun renewLatestHotdeal() {
-        val newLatestHotdealList = mutableListOf<HotDealItem>()
-        viewModelScope.launch {
-            newLatestHotdealList.addAll(getLatestHotDealItem().await() as Collection<HotDealItem>)
-            _latestHotDealItemList.value = newLatestHotdealList.sortedBy { it.time }.reversed()
-        }
+        getLatestHotDealItem()
     }
 
     fun renewLikeTop3() {
-        val newLikeTop3List = mutableListOf<HotDealItem>()
-        viewModelScope.launch {
-            newLikeTop3List.addAll(getLikeTop3Item().await() as Collection<HotDealItem>)
-            _likeTop3ItemList.value = newLikeTop3List.sortedBy { it.likeCnt }.reversed()
-        }
+        getLikeTop3Item()
     }
 
 }
