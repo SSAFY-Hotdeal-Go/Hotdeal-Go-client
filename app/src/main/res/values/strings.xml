@@ -12,4 +12,7 @@
     <string name="shippingFeeInfoAnnouncement">원/ 배송비&#160;</string>
     <string name="writedDateInfoAnnouncement">작성일시&#160;</string>
     <string name="likeCntInfoAnnouncement">/ 좋아요&#160;</string>
+    <string name="homeNoticeRecyclerViewTitle">[ 공지사항 ]</string>
+    <string name="homeLikeTop3RecyclerViewTitle">[ 좋아요 Top3 ]</string>
+    <string name="homeKeywordRecyclerViewTitle">[ 키워드 알림 ]</string>
 </resources>
