@@ -20,7 +20,7 @@ class HomeNoticeRecyclerViewAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): HomeNoticeRecyclerViewAdapter.HomeNoticeViewHolder {
+    ): HomeNoticeViewHolder {
         val binding = ItemNoticeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return HomeNoticeViewHolder(binding, itemClick)
     }
@@ -33,7 +33,7 @@ class HomeNoticeRecyclerViewAdapter(
         super.submitList(list)
     }
 
-    inner class HomeNoticeViewHolder(
+    class HomeNoticeViewHolder(
         private val binding: ItemNoticeBinding,
         private val itemClick: (NoticeItem) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
@@ -45,7 +45,6 @@ class HomeNoticeRecyclerViewAdapter(
         }
 
         fun bind(noticeItem: NoticeItem) {
-            Log.d(TAG, "bind: 바인드는 되냐...")
             this.noticeItem = noticeItem
             val simpleDateParser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREAN)
             val simpleDateFormatter = SimpleDateFormat("MM-dd HH:mm")
