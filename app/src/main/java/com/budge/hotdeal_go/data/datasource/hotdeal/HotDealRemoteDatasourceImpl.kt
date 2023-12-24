@@ -10,7 +10,7 @@ class HotDealRemoteDatasourceImpl @Inject constructor(
 
     override suspend fun getHotdeal(
         title: String?,
-        siteno: String?
+        siteno: String
     ): List<HotDealItem> {
         return hotDealApi.getHotdeal(title, siteno)
     }

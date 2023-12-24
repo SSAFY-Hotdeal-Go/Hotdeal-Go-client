@@ -8,6 +8,6 @@ class GetHotdealItems @Inject constructor(
 ) {
     suspend fun getItems(
         title: String?,
-        siteno: String? = "0"
+        siteno: String = "0"
     ) = hotDealRepository.getHotdeal(title, siteno)
 }

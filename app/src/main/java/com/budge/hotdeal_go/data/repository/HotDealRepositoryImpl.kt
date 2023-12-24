@@ -11,7 +11,7 @@ class HotDealRepositoryImpl @Inject constructor(
 
     override suspend fun getHotdeal(
         title: String?,
-        siteno: String?
+        siteno: String
     ): List<HotDealItem> {
         return datasource.getHotdeal(title, siteno)
     }

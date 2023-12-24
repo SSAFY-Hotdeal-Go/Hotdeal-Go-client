@@ -6,7 +6,7 @@ interface HotDealRemoteDatasource {
 
     suspend fun getHotdeal(
         title: String?,
-        siteno: String? = "0"
+        siteno: String = "0"
     ): List<HotDealItem>
 
 }
