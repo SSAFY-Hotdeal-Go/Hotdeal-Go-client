@@ -5,19 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.budge.hotdeal_go.data.model.HotDealItem
-import com.budge.hotdeal_go.domain.usecase.GetFmkoreaHotdealItems
-import com.budge.hotdeal_go.domain.usecase.GetQuasarzoneHotdealItems
-import com.budge.hotdeal_go.domain.usecase.GetRuliwebHotdealItems
+import com.budge.hotdeal_go.domain.usecase.GetHotdealItems
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HotDealViewModel @Inject constructor(
-    private val getFmkoreaHotdelItems: GetFmkoreaHotdealItems,
-    private val getQuasarzoneHotdealItems: GetQuasarzoneHotdealItems,
-    private val getRuliwebHotdealItems: GetRuliwebHotdealItems
+    private val getHotdealItems: GetHotdealItems,
 ) : ViewModel() {
     private val _hotDealItemList = MutableLiveData<List<HotDealItem>>(emptyList())
     val hotDealItemList: LiveData<List<HotDealItem>> get() = _hotDealItemList
@@ -28,37 +23,26 @@ class HotDealViewModel @Inject constructor(
 
     val isRuliwebChecked = MutableLiveData(true)
 
-    private fun getFmKoreaHotdeal() =
-        viewModelScope.async {
-            runCatching {
-                getFmkoreaHotdelItems.getItems()
-            }.getOrDefault(emptyList())
-        }
-
-
-    private fun getQuasarzoneHotdeal() =
-        viewModelScope.async {
-            runCatching {
-                getQuasarzoneHotdealItems.getItems()
-            }.getOrDefault(emptyList())
-        }
-
-
-    private fun getRuliwebHotdeal() = viewModelScope.async {
-        runCatching {
-            getRuliwebHotdealItems.getItems()
+    private suspend fun getHotdeal(searchString: String = "", sitenoString: String = "0") {
+        var newHotDealItemList = runCatching {
+            getHotdealItems.getItems(searchString, sitenoString)
         }.getOrDefault(emptyList())
+        if (sitenoString == "") newHotDealItemList = emptyList()
+        _hotDealItemList.value = newHotDealItemList
     }
 
 
-    fun searchItem() {
-        val newHotDealItemList = mutableListOf<HotDealItem>()
+    fun searchItem(searchString: String = "") {
+        var sitenoString = ""
         viewModelScope.launch {
-            if (isFmkoreaChecked.value == true) newHotDealItemList.addAll(getFmKoreaHotdeal().await())
-            if (isRuliwebChecked.value == true) newHotDealItemList.addAll(getRuliwebHotdeal().await())
-            if (isQuasarzoneChecked.value == true) newHotDealItemList.addAll(getQuasarzoneHotdeal().await())
+            if (isFmkoreaChecked.value == true) sitenoString += "1,"
+            if (isRuliwebChecked.value == true) sitenoString += "2,"
+            if (isQuasarzoneChecked.value == true) sitenoString += "3,"
+            if (sitenoString == "1,2,3,") sitenoString = "0"
 
-            _hotDealItemList.value = newHotDealItemList.sortedBy { it.time }.reversed()
+            getHotdeal(searchString = searchString, sitenoString = sitenoString)
+
         }
     }
+
 }

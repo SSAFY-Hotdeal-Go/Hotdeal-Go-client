@@ -22,6 +22,7 @@ class HotDealFragment : BaseFragment<FragmentHotDealBinding>(
 
     private val viewModel by viewModels<HotDealViewModel>()
     private lateinit var listAdapter: HotDealRecyclerViewAdapter
+    private var searchWord = ""
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -29,6 +30,11 @@ class HotDealFragment : BaseFragment<FragmentHotDealBinding>(
         setObserve()
         setDataBinding()
         setRecyclerView()
+
+        binding.hotDealSearchBtn.setOnClickListener {
+            searchWord = binding.hotDealSearchET.text.toString()
+            viewModel.searchItem(searchWord)
+        }
 
     }
 
@@ -39,13 +45,13 @@ class HotDealFragment : BaseFragment<FragmentHotDealBinding>(
         }
 
         viewModel.isFmkoreaChecked.observe(viewLifecycleOwner) {
-            viewModel.searchItem()
+            viewModel.searchItem(searchWord)
         }
         viewModel.isQuasarzoneChecked.observe(viewLifecycleOwner) {
-            viewModel.searchItem()
+            viewModel.searchItem(searchWord)
         }
         viewModel.isRuliwebChecked.observe(viewLifecycleOwner) {
-            viewModel.searchItem()
+            viewModel.searchItem(searchWord)
         }
 
 
